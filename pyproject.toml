@@ -10,7 +10,12 @@ packages = [{include = "insta_video_gen"}]
 python = "^3.11"
 instaloader = "^4.10"
 moviepy = "^1.0.3"
+pydantic-settings = "^2.0.2"
+pyright = "^1.1.318"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
 
 [build-system]
 requires = ["poetry-core"]
