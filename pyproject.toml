@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "insta-video-gen"
+version = "0.1.0"
+description = "Instragram Video Generator"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "insta_video_gen"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+instaloader = "^4.10"
+moviepy = "^1.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
