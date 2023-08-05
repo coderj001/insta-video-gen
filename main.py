@@ -1,1 +1,6 @@
-# from app.instadownloader import download_instagram_videos_for_usernames
+from app.instadownloader import download_instagram_videos_for_usernames
+download_instagram_videos_for_usernames()
+
+from app.compilationmaker import video_compilation
+
+video_compilation()

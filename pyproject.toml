@@ -12,6 +12,7 @@ instaloader = "^4.10"
 moviepy = "^1.0.3"
 pydantic-settings = "^2.0.2"
 pyright = "^1.1.318"
+python-dateutil = "^2.8.2"
 
 
 [tool.poetry.group.dev.dependencies]
