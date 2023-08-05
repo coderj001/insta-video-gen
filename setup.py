@@ -6,7 +6,7 @@ from setuptools import setup
 SRC = os.path.abspath(os.path.dirname(__file__))
 
 def get_version():
-    with open(os.path.join(SRC, 'app/__init__.py')) as f:
+    with open(os.path.join(SRC, 'src/__init__.py')) as f:
         for line in f:
             m = re.match("__version__ = '(.*)'", line)
             if m:
