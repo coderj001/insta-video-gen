@@ -1,3 +1,4 @@
+""" Settings """
 import os
 from datetime import datetime, timedelta
 
@@ -6,11 +7,12 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    instagram_usernames: list[str] = ["fuckjerry"]  # added usernames in list
-    download_limits: int = 30
+    your_insta_username: str = ""
+    your_insta_password: str = ""
+    instagram_usernames: list[str] = ["fuckjerry", "ladbible"]  # added usernames in list
     base_dir: str = os.getcwd()
-    temp_dir: str = "insta_downloads"
-    duration_str: str = os.getenv("DURATION", "3days")
+    temp_dir: str = "downloaded_videos"
+    duration_str: str = os.getenv("DURATION", "30days")
     duration: int = int(duration_str[:-4])  # Extract the numerical part from the string
 
     # Extract the unit from the string ("hours", "days", "months", or "years") to calculate the date range
