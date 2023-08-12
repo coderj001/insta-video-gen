@@ -18,8 +18,14 @@ class Settings(BaseSettings):
     duration_str: str = os.getenv("DURATION", "4days")
     # Extract the numerical part from the string
     duration: int = int(duration_str[:-4])
-    background_music: bool = False
+    background_music: bool = True
     target_resolution: tuple[int, int] = (1930, 1080)
+    limit_hashtags: int = 50
+    imp_hashtags: list[str] = [
+        "videoedit",
+        "funney",
+        "compilation",
+    ]
 
     # Extract the unit from the string ("hours", "days", "months", or "years")
     # to calculate the date range
@@ -29,12 +35,17 @@ class Settings(BaseSettings):
     elif unit == "days":
         start_date_dt: datetime = datetime.now() - timedelta(days=duration)
     elif unit == "months":
-        start_date_dt: datetime = datetime.now() - relativedelta(months=duration)
+        start_date_dt: datetime = datetime.now() - relativedelta(
+            months=duration
+        )
     elif unit == "years":
-        start_date_dt: datetime = datetime.now() - relativedelta(years=duration)
+        start_date_dt: datetime = datetime.now() - relativedelta(
+            years=duration
+        )
     else:
         raise ValueError(
-            "Invalid duration unit. Use 'hours', 'days', 'months', or 'years'.")
+            "Invalid duration unit. Use 'hours', 'days', 'months', or 'years'."
+        )
 
     end_date_dt: datetime = datetime.now()
 
