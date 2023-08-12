@@ -1,11 +1,13 @@
 """Utils"""
-import zipfile
-import platform
-import requests
-import os
 import csv
-from src.settings import settings
+import os
+import platform
+import zipfile
 from collections import Counter
+
+import requests
+
+from src.settings import settings
 
 
 def get_all_tags() -> list[str]:

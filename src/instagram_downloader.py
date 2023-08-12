@@ -1,9 +1,9 @@
 """ Instagram Downloader """
-from itertools import dropwhile, takewhile
+import csv
 import os
 import re
-import csv
 import shutil
+from itertools import dropwhile, takewhile
 
 import instaloader
 

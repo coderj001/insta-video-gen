@@ -1,13 +1,11 @@
 import os
-from src.settings import settings
-from moviepy.editor import (
-    VideoFileClip,
-    concatenate_videoclips,
-    AudioFileClip,
-    CompositeAudioClip
-)
-from moviepy.audio.fx.all import audio_loop
 from datetime import datetime
+
+from moviepy.audio.fx.all import audio_loop
+from moviepy.editor import (AudioFileClip, CompositeAudioClip, VideoFileClip,
+                            concatenate_videoclips)
+
+from src.settings import settings
 
 
 class VidoeCompilationMaker:
@@ -64,6 +62,7 @@ class VidoeCompilationMaker:
 
     def create_compilation(self):
         """Create a video compilation from the video files."""
+        final_video_name = f'final_video_{datetime.now()}.mp4'
         self.create_output_dir()
         video_clips, _ = self.get_video_clips_and_durations()
 
@@ -107,7 +106,7 @@ class VidoeCompilationMaker:
 
         final_video_path = os.path.join(
             self.output_dir,
-            f'final_video_{datetime.now()}.mp4'
+            final_video_name
         )
         final_video.write_videofile(
             final_video_path, codec='libx264', audio_codec='aac')
@@ -119,3 +118,4 @@ class VidoeCompilationMaker:
         asset_one_resized.close()
         for clip in video_clips:
             clip.reader.close()
+        return final_video_name

@@ -1,10 +1,11 @@
+import os
+import time
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
 from src.settings import settings
 from src.utils import download_chromedriver
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-import time
-import os
 
 
 class YouTubeUploader:
@@ -28,14 +29,16 @@ class YouTubeUploader:
         self.driver.find_element(
             By.ID, 'identifierId').send_keys(self.username)
         self.driver.find_element(By.ID, 'identifierNext').click()
-        time.sleep(2)
+        time.sleep(5)
         self.driver.find_element(By.NAME, 'password').send_keys(self.password)
         self.driver.find_element(By.ID, 'passwordNext').click()
         time.sleep(5)
 
     def upload_video(self, video_path, title, description, tags):
         self.driver.find_element(
-            By.CSS_SELECTOR, 'button[aria-label="Create"]').click()
+            By.CSS_SELECTOR,
+            'button[aria-label="Create"]'
+        ).click()
         time.sleep(2)
         self.driver.find_element(By.LINK_TEXT, 'Upload video').click()
         time.sleep(2)
