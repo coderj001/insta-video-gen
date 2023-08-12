@@ -1,7 +1,6 @@
 """ Instagram Downloader """
 from itertools import dropwhile, takewhile
 import os
-import logging
 import re
 import csv
 import shutil
@@ -42,7 +41,7 @@ def download_instagram_videos_in_date_range(username: str) -> None:
             )
 
         for post in results:
-            logging.info(f"Downloading: {post.date}")
+            print(f"Downloading: {post.date}")
             if post.is_video:
                 L.download_post(post, target=settings.temp_dir)
                 # Extract hashtags from caption
@@ -71,5 +70,5 @@ def download_instagram_videos_in_date_range(username: str) -> None:
 
 def download_instagram_videos_for_usernames() -> None:
     for username in settings.instagram_usernames:
-        logging.info(f"Username: {username}")
+        print(f"Username: {username}")
         download_instagram_videos_in_date_range(username=username)

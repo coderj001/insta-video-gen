@@ -56,7 +56,7 @@ class Settings(BaseSettings):
         end_date_dt.strftime("%Y%m%d_%H%M%S"), "%Y%m%d_%H%M%S")
 
     class Config:
-        env_prefix = "ENV_"
+        env_prefix = "env_"
 
 
 settings = Settings()
