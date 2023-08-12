@@ -7,6 +7,7 @@ from moviepy.editor import (
     CompositeAudioClip
 )
 from moviepy.audio.fx.all import audio_loop
+from datetime import datetime
 
 
 class VidoeCompilationMaker:
@@ -35,8 +36,8 @@ class VidoeCompilationMaker:
             os.path.join(self.temp_dir, x)))
         return extra_files
 
-    def create_video_clip_and_duration(self):
-        """docstring for create_video_clip"""
+    def get_video_clips_and_durations(self):
+        """Get video clips and durations."""
         video_files = self.get_videos_files()
         video_clips = []
         durations = []
@@ -55,16 +56,16 @@ class VidoeCompilationMaker:
         return total_duration, durations
 
     def display_final_video_duration(self):
-        _, durations = self.create_video_clip_and_duration()
+        _, durations = self.get_video_clips_and_durations()
         total_duration, individual_durations = self.calculate_video_duration(
             durations)
         print("Total Duration:", total_duration, "seconds")
         print("Individual Durations:", individual_durations, "seconds each")
 
-    def video_compilation(self):
+    def create_compilation(self):
         """Create a video compilation from the video files."""
         self.create_output_dir()
-        video_clips, _ = self.create_video_clip_and_duration()
+        video_clips, _ = self.get_video_clips_and_durations()
 
         target_width, target_height = settings.target_resolution
 
@@ -81,7 +82,10 @@ class VidoeCompilationMaker:
             resized_clips.append(padded_clip)
 
         # Combine all resized and padded video clips
-        combined_videos = concatenate_videoclips(resized_clips)
+        combined_videos = concatenate_videoclips(
+            resized_clips,
+            method="compose"
+        )
 
         # Add asset_one at the end
         asset_one = VideoFileClip('media_assets/like_share_and_subscribe.mp4')
@@ -90,21 +94,26 @@ class VidoeCompilationMaker:
         final_video = concatenate_videoclips(
             [combined_videos, asset_one_resized])
 
-        background_music_path = 'media_assets/fluffing_a_duck.mp3'
-        background_music = AudioFileClip(background_music_path)
+        if settings.background_music:
+            background_music_path = 'media_assets/fluffing_a_duck.mp3'
+            background_music = AudioFileClip(background_music_path)
 
-        looped_background_music = audio_loop(
-            background_music, duration=final_video.duration)
+            looped_background_music = audio_loop(
+                background_music, duration=final_video.duration)
 
-        final_audio = CompositeAudioClip(
-            [final_video.audio, looped_background_music])
-        final_video = final_video.set_audio(final_audio)
+            final_audio = CompositeAudioClip(
+                [final_video.audio, looped_background_music])
+            final_video = final_video.set_audio(final_audio)
 
-        final_video_path = os.path.join(self.output_dir, 'final_video.mp4')
+        final_video_path = os.path.join(
+            self.output_dir,
+            f'final_video_{datetime.now()}.mp4'
+        )
         final_video.write_videofile(
             final_video_path, codec='libx264', audio_codec='aac')
 
-        background_music.close()
+        if settings.background_music:
+            background_music.close()
         final_video.close()
         asset_one.close()
         asset_one_resized.close()

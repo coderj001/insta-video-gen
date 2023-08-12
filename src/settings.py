@@ -15,11 +15,11 @@ class Settings(BaseSettings):
     ]  # added usernames in list
     base_dir: str = os.getcwd()
     temp_dir: str = "downloaded_videos"
-    duration_str: str = os.getenv("DURATION", "2days")
+    duration_str: str = os.getenv("DURATION", "4days")
     # Extract the numerical part from the string
     duration: int = int(duration_str[:-4])
-    background_music: bool = True
-    target_resolution: tuple[int, int] = (1920, 1080)
+    background_music: bool = False
+    target_resolution: tuple[int, int] = (1930, 1080)
 
     # Extract the unit from the string ("hours", "days", "months", or "years")
     # to calculate the date range

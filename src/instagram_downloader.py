@@ -1,6 +1,7 @@
 """ Instagram Downloader """
 from itertools import dropwhile, takewhile
 import os
+import logging
 import re
 import csv
 import shutil
@@ -13,6 +14,12 @@ L = instaloader.Instaloader(download_video_thumbnails=False)
 
 
 def download_instagram_videos_in_date_range(username: str) -> None:
+    if settings.your_insta_password and settings.your_insta_password:
+        L.context.log(
+            settings.your_insta_username,
+            settings.your_insta_password
+        )
+        L.load_session_from_file(settings.your_insta_username)
     profile = instaloader.Profile.from_username(L.context, username)
     posts = profile.get_posts()
     results = takewhile(lambda p: p.date > (settings.start_date), dropwhile(
@@ -29,12 +36,13 @@ def download_instagram_videos_in_date_range(username: str) -> None:
                     "Likes",
                     "Comments",
                     "Hashtags",
+                    "Caption Hashtags"
                 ]
 
             )
 
         for post in results:
-            print(post.date)
+            logging.info(f"Downloading: {post.date}")
             if post.is_video:
                 L.download_post(post, target=settings.temp_dir)
                 # Extract hashtags from caption
@@ -46,7 +54,8 @@ def download_instagram_videos_in_date_range(username: str) -> None:
                     post.date,
                     post.likes,
                     post.comments,
-                    hashtags
+                    hashtags,
+                    post.caption_hashtags,
                 ])
                 original_file_path = os.path.join(
                     settings.temp_dir,
@@ -62,5 +71,5 @@ def download_instagram_videos_in_date_range(username: str) -> None:
 
 def download_instagram_videos_for_usernames() -> None:
     for username in settings.instagram_usernames:
-        print("Username: ", username)
+        logging.info(f"Username: {username}")
         download_instagram_videos_in_date_range(username=username)

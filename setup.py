@@ -8,7 +8,7 @@ pwd = path.abspath(path.dirname(__file__))
 
 with io.open(path.join(pwd, 'README.md'), encoding='utf-8') as readme:
     desc = readme.read()
-    
+
 setup(
     name="insta-video-gen",
     version="1.0",
@@ -21,7 +21,7 @@ setup(
         'Topic :: OSINT, Recon',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-    
+
     ],
     entry_points={
         'console_scripts': [
