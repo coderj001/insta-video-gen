@@ -2,8 +2,12 @@ import os
 from datetime import datetime
 
 from moviepy.audio.fx.all import audio_loop
-from moviepy.editor import (AudioFileClip, CompositeAudioClip, VideoFileClip,
-                            concatenate_videoclips)
+from moviepy.editor import (
+    AudioFileClip,
+    CompositeAudioClip,
+    VideoFileClip,
+    concatenate_videoclips,
+)
 
 from src.settings import settings
 

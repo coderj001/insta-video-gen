@@ -7,25 +7,20 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    base_dir: str = os.getcwd()
+    temp_dir: str = "downloaded_videos"
+    #####################
+    # Instagram related #
+    #####################
     your_insta_username: str = ""
     your_insta_password: str = ""
     instagram_usernames: list[str] = [
         "fuckjerry",
         "ladbible",
     ]  # added usernames in list
-    base_dir: str = os.getcwd()
-    temp_dir: str = "downloaded_videos"
     duration_str: str = os.getenv("DURATION", "4days")
     # Extract the numerical part from the string
     duration: int = int(duration_str[:-4])
-    background_music: bool = True
-    target_resolution: tuple[int, int] = (1930, 1080)
-    limit_hashtags: int = 50
-    imp_hashtags: list[str] = [
-        "videoedit",
-        "funney",
-        "compilation",
-    ]
 
     # Extract the unit from the string ("hours", "days", "months", or "years")
     # to calculate the date range
@@ -54,6 +49,22 @@ class Settings(BaseSettings):
         start_date_dt.strftime("%Y%m%d_%H%M%S"), "%Y%m%d_%H%M%S")
     end_date: datetime = datetime.strptime(
         end_date_dt.strftime("%Y%m%d_%H%M%S"), "%Y%m%d_%H%M%S")
+
+    #############################
+    # Video Compilation Related #
+    #############################
+    background_music: bool = True
+    target_resolution: tuple[int, int] = (1930, 1080)
+
+    ##########################
+    # Youtube Upload Related #
+    ##########################
+    limit_hashtags: int = 50
+    imp_hashtags: list[str] = [
+        "videoedit",
+        "funney",
+        "compilation",
+    ]
 
     class Config:
         env_prefix = "env_"
