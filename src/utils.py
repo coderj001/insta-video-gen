@@ -1,4 +1,5 @@
 """Utils"""
+from datetime import datetime
 import csv
 import os
 import platform
@@ -83,3 +84,47 @@ def download_chromedriver(version=None) -> None:
 def video_management_for_merged_videos_dir():
     """ Management Of Mergerd Videos Content """
     pass
+
+
+def append_upload_entry(csv_file, video_name, video_id):
+    """
+    Append an entry to the CSV file for a video upload.
+
+    Args:
+    - csv_file (str): Path to the CSV file.
+    - video_name (str): Name or title of the video.
+    - video_id (str): Unique identifier or URL of the video.
+    """
+    # Check if CSV file exists. If not, create one with headers.
+    if not os.path.exists(csv_file):
+        with open(csv_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Video Name", "Video ID", "Upload Date"])
+
+    # Append the new entry to the CSV file.
+    with open(csv_file, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([
+            video_name,
+            video_id,
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        ])
+
+
+def get_upload_count(csv_file) -> int:
+    """
+    Get the total count of videos uploaded.
+
+    Args:
+    - csv_file (str): Path to the CSV file.
+
+    Returns:
+    - int: Total count of videos uploaded.
+    """
+    if not os.path.exists(csv_file):
+        return 0
+
+    with open(csv_file, 'r') as file:
+        reader = csv.reader(file)
+        # Subtract 1 for the header row
+        return sum(1 for row in reader) - 1

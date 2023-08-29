@@ -51,8 +51,8 @@ def upload_video(youtube, video_path, title, description, tags):
         'snippet': {
             'title': title,
             'description': description,
-            'tags': tags.split(","),
-            'categoryId': '22'  # "People & Blogs" category
+            'tags': tags,
+            'categoryId': settings.yt_category  # "People & Blogs" category
         },
         'status': {
             'privacyStatus': 'public'

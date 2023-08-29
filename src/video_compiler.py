@@ -12,8 +12,9 @@ from moviepy.editor import (
 from src.settings import settings
 
 
-class VidoeCompilationMaker:
-    def __init__(self):
+class VideoCompilationMaker:
+    def __init__(self, add_background_music=True):
+        self.base_dir = settings.base_dir
         self.temp_dir = os.path.join(settings.base_dir, settings.temp_dir)
         self.output_dir = os.path.join(settings.base_dir, "merged_videos")
 
@@ -66,7 +67,7 @@ class VidoeCompilationMaker:
 
     def create_compilation(self):
         """Create a video compilation from the video files."""
-        final_video_name = f'final_video_{datetime.now()}.mpv'
+        final_video_name = f'final_video_{datetime.now()}.mp4'
         self.create_output_dir()
         video_clips, _ = self.get_video_clips_and_durations()
 
@@ -91,15 +92,14 @@ class VidoeCompilationMaker:
         )
 
         # Add asset_one at the end
-        asset_one = VideoFileClip('media_assets/like_share_and_subscribe.mp4')
+        asset_one = VideoFileClip(settings.outro_video_path)
         asset_one_resized = asset_one.resize(
             newsize=(target_width, target_height))
         final_video = concatenate_videoclips(
             [combined_videos, asset_one_resized])
 
         if settings.background_music:
-            background_music_path = 'media_assets/fluffing_a_duck.mp3'
-            background_music = AudioFileClip(background_music_path)
+            background_music = AudioFileClip(settings.background_music_path)
 
             looped_background_music = audio_loop(
                 background_music, duration=final_video.duration)

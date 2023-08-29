@@ -98,6 +98,41 @@ class Settings(BaseSettings):
     ##########################
     # Youtube Upload Related #
     ##########################
+    youtube_categories = {
+        "Film & Animation": '1',
+        "Autos & Vehicles": '2',
+        "Music": '10',
+        "Pets & Animals": '15',
+        "Sports": '17',
+        "Short Movies": '18',
+        "Travel & Events": '19',
+        "Gaming": '20',
+        "Videoblogging": '21',
+        "People & Blogs": '22',
+        "Comedy": '23',
+        "Entertainment": '24',
+        "News & Politics": '25',
+        "Howto & Style": '26',
+        "Education": '27',
+        "Science & Technology": '28',
+        "Nonprofits & Activism": '29',
+        "Movies": '30',
+        "Anime/Animation": '31',
+        "Action/Adventure": '32',
+        "Classics": '33',
+        "Documentary": '35',
+        "Drama": '36',
+        "Family": '37',
+        "Foreign": '38',
+        "Horror": '39',
+        "Sci-Fi/Fantasy": '40',
+        "Thriller": '41',
+        "Shorts": '42',
+        "Shows": '43',
+        "Trailers": '44'
+    }
+    selected_youtube_category = "Comedy"
+    yt_category = youtube_categories[selected_youtube_category]
     your_youtube_username: Optional[str] = None
     your_youtube_password: Optional[str] = None
     client_secrets_file: str = os.path.join(base_dir, 'client_secrets.json')
@@ -113,7 +148,7 @@ class Settings(BaseSettings):
         "fluffing_a_duck"
     ]
     yt_video_title: str = "TRY NOT TO LAUGH 😆"
-    yt_video_sub_title: str
+    yt_video_sub_title: Optional[str] = None
     yt_video_description: str = (
         "If you accepted this challange\n"
         "Thanks for watching this video. I hope you liked it.\n"
@@ -137,5 +172,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_prefix = "env_"
+
 
 settings = Settings(_env_file='.env')
