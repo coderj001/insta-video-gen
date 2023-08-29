@@ -78,3 +78,8 @@ def download_chromedriver(version=None) -> None:
         os.rename("chromedriver", f"{settings.base_dir}/chromedriver")
 
     print("ChromeDriver downloaded successfully!")
+
+
+def video_management_for_merged_videos_dir():
+    """ Management Of Mergerd Videos Content """
+    pass

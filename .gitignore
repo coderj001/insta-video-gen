@@ -179,3 +179,5 @@ downloaded_videos/
 .vscode/*
 compiled_videos/*
 *.csv
+*.json
+*.pickle
