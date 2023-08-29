@@ -7,6 +7,7 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 from src.settings import settings
+from src.utils import get_latest_video, get_upload_count, get_all_hashtags_in_str, get_all_tags, get_credit_str  # noqa: E501
 
 # OAuth 2.0 setup
 CLIENT_SECRETS_FILE = settings.client_secrets_file
@@ -52,7 +53,8 @@ def upload_video(youtube, video_path, title, description, tags):
             'title': title,
             'description': description,
             'tags': tags,
-            'categoryId': settings.yt_category  # "People & Blogs" category
+            # 'categoryId': settings.yt_category  # "People & Blogs" category
+            'categoryId': 23  # "People & Blogs" category
         },
         'status': {
             'privacyStatus': 'public'
@@ -79,3 +81,24 @@ def upload_video(youtube, video_path, title, description, tags):
 
         print("\nUpload completed!")
         return response
+
+
+def upload_to_youtube():
+    youtube = get_authenticated_service()
+    video_path = get_latest_video()
+    video_count = get_upload_count() + 1
+    if settings.yt_video_sub_title:
+        title = f"{settings.yt_video_title} | {settings.yt_video_sub_title} | Challenge No. {video_count}"  # noqa: E501
+    else:
+        title = f"{settings.yt_video_title} | Challenge No. {video_count}"
+    credit_str = get_credit_str()
+    description = settings.yt_video_description.format(
+        video_count,
+        settings.your_youtube_username,
+        credit_str,
+        settings.your_youtube_username,
+        get_all_hashtags_in_str()
+    )
+    tags = get_all_tags()
+
+    upload_video(youtube, video_path, title, description, tags)

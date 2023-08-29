@@ -33,3 +33,10 @@
 # from src.settings import settings
 #
 # __import__('pprint').pprint(settings.model_dump_json())
+
+from src.utils import get_upload_count, append_upload_entry, get_all_insta_usernames, get_credit_str
+# print(append_upload_entry(
+# 'Hi!', './merged_videos/final_video_2023-08-29 22:08:28.176477.mp4'))
+# print(get_upload_count())
+
+print(get_credit_str())

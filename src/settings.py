@@ -35,7 +35,8 @@ class Settings(BaseSettings):
     """  # noqa: E501
 
     base_dir: str = os.getcwd()
-    temp_dir: str = "downloaded_videos"
+    temp_dir: str = os.path.join(base_dir,  "downloaded_videos")
+    output_dir: str = os.path.join(base_dir,  "merged_videos")
     instagram_url: str = "https://www.instagram.com"
     #####################
     # Instagram related #
@@ -94,45 +95,12 @@ class Settings(BaseSettings):
         base_dir,
         'media_assets/like_share_and_subscribe.mp4'
     )
+    videos_data: str = os.path.join(base_dir, 'videos.csv')
 
     ##########################
     # Youtube Upload Related #
     ##########################
-    youtube_categories = {
-        "Film & Animation": '1',
-        "Autos & Vehicles": '2',
-        "Music": '10',
-        "Pets & Animals": '15',
-        "Sports": '17',
-        "Short Movies": '18',
-        "Travel & Events": '19',
-        "Gaming": '20',
-        "Videoblogging": '21',
-        "People & Blogs": '22',
-        "Comedy": '23',
-        "Entertainment": '24',
-        "News & Politics": '25',
-        "Howto & Style": '26',
-        "Education": '27',
-        "Science & Technology": '28',
-        "Nonprofits & Activism": '29',
-        "Movies": '30',
-        "Anime/Animation": '31',
-        "Action/Adventure": '32',
-        "Classics": '33',
-        "Documentary": '35',
-        "Drama": '36',
-        "Family": '37',
-        "Foreign": '38',
-        "Horror": '39',
-        "Sci-Fi/Fantasy": '40',
-        "Thriller": '41',
-        "Shorts": '42',
-        "Shows": '43',
-        "Trailers": '44'
-    }
-    selected_youtube_category = "Comedy"
-    yt_category = youtube_categories[selected_youtube_category]
+    yt_category: str = "32"
     your_youtube_username: Optional[str] = None
     your_youtube_password: Optional[str] = None
     client_secrets_file: str = os.path.join(base_dir, 'client_secrets.json')
@@ -141,6 +109,7 @@ class Settings(BaseSettings):
         "videoedit",
         "funney",
         "compilation",
+        "compilationedit",
         "best memes compilation",
         "memes",
         "bruh sound",
@@ -164,7 +133,7 @@ class Settings(BaseSettings):
         "\n\n"
         "---------------------------------------------------------------------------------------------------------------\n"  # noqa: E501
 
-        "All clips are used for entertainment purposes only! If there are any problems with the videos or songs featured send me an email at: streetcanultimate@gmail.com and we'll resolve the issue!\n"  # noqa: E501
+        "All clips are used for entertainment purposes only! If there are any problems with the videos or songs featured send me an email at: {} and we'll resolve the issue!\n" # email  # noqa: E501
         "-----------------------------------------------------------------------------------------------------------------\n\n"  # noqa: E501
 
         "{}"  # Placeholder for any additional information

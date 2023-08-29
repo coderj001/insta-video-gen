@@ -13,10 +13,10 @@ from src.settings import settings
 
 
 class VideoCompilationMaker:
-    def __init__(self, add_background_music=True):
+    def __init__(self):
         self.base_dir = settings.base_dir
-        self.temp_dir = os.path.join(settings.base_dir, settings.temp_dir)
-        self.output_dir = os.path.join(settings.base_dir, "merged_videos")
+        self.temp_dir = settings.temp_dir
+        self.output_dir = settings.output_dir
 
     def create_output_dir(self) -> None:
         """Create output directory if it's dosn't exists."""

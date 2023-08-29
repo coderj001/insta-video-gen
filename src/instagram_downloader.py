@@ -62,9 +62,11 @@ def download_instagram_videos_in_date_range(username: str) -> None:
                 )
                 new_file_name = f"{username}_{post.shortcode}_{post.date_utc.strftime('%Y%m%d_%H%M%S')}.mp4"  # noqa: E501
                 new_file_path = os.path.join(settings.temp_dir, new_file_name)
-                print(original_file_path)
-                print(new_file_name)
-                print(os.path.exists(original_file_path))
+                original_file_path = original_file_path.replace(
+                    ' ', '_').replace(':', '-')
+                # print(original_file_path)
+                # print(new_file_name)
+                # print(os.path.exists(original_file_path))
                 if os.path.exists(original_file_path):
                     shutil.move(original_file_path, new_file_path)
 

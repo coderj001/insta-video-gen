@@ -1,4 +1,5 @@
 """Utils"""
+import glob
 from datetime import datetime
 import csv
 import os
@@ -37,6 +38,26 @@ def get_all_tags() -> list[str]:
 
 def get_all_hashtags_in_str() -> str:
     return ','.join(get_all_tags())
+
+
+def get_all_insta_usernames():
+    """docstring for get_all_insta_usernames"""
+    # Read the CSV file
+    with open('instagram_metadata.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        rows = [row for row in reader]
+    insta_usernames_list = []
+    for row in rows:
+        insta_username = row['Username']
+        insta_usernames_list.append(insta_username)
+    return set(insta_usernames_list)
+
+
+def get_credit_str():
+    credit_str = ""
+    for i in get_all_insta_usernames():
+        credit_str += f"\t{settings.instagram_url}/{i}\n"
+    return credit_str
 
 
 def download_chromedriver(version=None) -> None:
@@ -86,7 +107,7 @@ def video_management_for_merged_videos_dir():
     pass
 
 
-def append_upload_entry(csv_file, video_name, video_id):
+def append_upload_entry(video_name, video_id):
     """
     Append an entry to the CSV file for a video upload.
 
@@ -95,6 +116,7 @@ def append_upload_entry(csv_file, video_name, video_id):
     - video_name (str): Name or title of the video.
     - video_id (str): Unique identifier or URL of the video.
     """
+    csv_file = settings.videos_data
     # Check if CSV file exists. If not, create one with headers.
     if not os.path.exists(csv_file):
         with open(csv_file, 'w', newline='') as file:
@@ -111,7 +133,7 @@ def append_upload_entry(csv_file, video_name, video_id):
         ])
 
 
-def get_upload_count(csv_file) -> int:
+def get_upload_count() -> int:
     """
     Get the total count of videos uploaded.
 
@@ -121,6 +143,7 @@ def get_upload_count(csv_file) -> int:
     Returns:
     - int: Total count of videos uploaded.
     """
+    csv_file = settings.videos_data
     if not os.path.exists(csv_file):
         return 0
 
@@ -128,3 +151,15 @@ def get_upload_count(csv_file) -> int:
         reader = csv.reader(file)
         # Subtract 1 for the header row
         return sum(1 for row in reader) - 1
+
+
+def get_latest_video() -> str:
+    # Getting all .mp4 files in the directory
+    video_files = glob.glob(os.path.join(
+        settings.output_dir, "final_video_*.mp4"))
+
+    # Extracting the datetime from the filename and sorting based on it
+    latest_video = max(video_files, key=lambda x: datetime.strptime(
+        x.split('_')[-1].replace('.mp4', ''), '%Y-%m-%d %H:%M:%S.%f'))
+
+    return latest_video

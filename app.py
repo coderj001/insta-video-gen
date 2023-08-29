@@ -1,7 +1,7 @@
 import click
 from src.instagram_downloader import download_instagram_videos_for_usernames
 from src.video_compiler import VideoCompilationMaker
-from src.yt_uploader import get_authenticated_service, upload_video
+from src.yt_uploader import upload_to_youtube as upload_to_yt
 
 
 @click.group()
@@ -22,23 +22,22 @@ def fetch():
 
 
 @main.command()
-def size():
-    """Dowloader Videos Size"""
-    pass
-
-
-@main.command()
 def compile():
     """
     compilation of insta videos
     """
+    print("Compilating...")
     vc = VideoCompilationMaker()
     vc.create_compilation()
 
 
 @main.command()
-def upload_to_youtube():
-    pass
+def upload():
+    """
+    upload to youtube
+    """
+    print("Uploading...")
+    upload_to_yt()
 
 
 if __name__ == '__main__':
