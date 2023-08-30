@@ -43,7 +43,8 @@ def download_instagram_videos_in_date_range(username: str) -> None:
         for post in results:
             print(f"Downloading: {post.date}")
             if post.is_video:
-                L.download_post(post, target=settings.temp_dir)
+                L.download_post(
+                    post, target=settings.temp_dir.split('/').pop())
                 # Extract hashtags from caption
                 hashtags = " ".join(re.findall(r"#(\w+)", post.caption))
 

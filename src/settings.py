@@ -50,7 +50,7 @@ class Settings(BaseSettings):
         if not username:
             raise ValueError("Instagram usernames must not be empty.")
         return username
-    duration_str: str = "2days"
+    duration_str: str = "3days"
     # Extract the numerical part from the string
     duration: int = int(duration_str[:-4])
 
@@ -85,7 +85,7 @@ class Settings(BaseSettings):
     #############################
     # Video Compilation Related #
     #############################
-    background_music: bool = True
+    background_music: bool = False
     background_music_path: str = os.path.join(
         base_dir,
         'media_assets/fluffing_a_duck.mp3'
@@ -133,7 +133,7 @@ class Settings(BaseSettings):
         "\n\n"
         "---------------------------------------------------------------------------------------------------------------\n"  # noqa: E501
 
-        "All clips are used for entertainment purposes only! If there are any problems with the videos or songs featured send me an email at: {} and we'll resolve the issue!\n" # email  # noqa: E501
+        "All clips are used for entertainment purposes only! If there are any problems with the videos or songs featured send me an email at: {} and we'll resolve the issue!\n"  # email  # noqa: E501
         "-----------------------------------------------------------------------------------------------------------------\n\n"  # noqa: E501
 
         "{}"  # Placeholder for any additional information
