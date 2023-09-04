@@ -35,6 +35,21 @@ def get_all_tags() -> list[str]:
 
     return settings.imp_hashtags + top_tags
 
+def get_yt_tags()->list[str]:
+    tags = get_yt_tags()
+    top_tags = [tag for tag, _ in Counter(tags).most_common(settings.limit_hashtags)]
+    combined_tags = settings.imp_hashtags + top_tags
+    char_limit = 400 - (len(combined_tags) - 1)  
+    final_tags = []
+    current_length = 0
+    for tag in combined_tags:
+        if current_length + len(tag) <= char_limit:
+            final_tags.append(tag)
+            current_length += len(tag)
+
+    return final_tags
+    
+
 
 def get_all_hashtags_in_str() -> str:
     return ','.join(get_all_tags())

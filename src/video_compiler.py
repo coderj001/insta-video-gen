@@ -67,7 +67,7 @@ class VideoCompilationMaker:
 
     def create_compilation(self):
         """Create a video compilation from the video files."""
-        final_video_name = f'final_video_{datetime.now()}.mp4'
+        final_video_name = f"{datetime.now().ctime().replace(' ', '_')}.mp4"
         self.create_output_dir()
         video_clips, _ = self.get_video_clips_and_durations()
 

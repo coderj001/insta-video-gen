@@ -50,7 +50,7 @@ class Settings(BaseSettings):
         if not username:
             raise ValueError("Instagram usernames must not be empty.")
         return username
-    duration_str: str = "3days"
+    duration_str: str = "1days"
     # Extract the numerical part from the string
     duration: int = int(duration_str[:-4])
 
@@ -100,11 +100,11 @@ class Settings(BaseSettings):
     ##########################
     # Youtube Upload Related #
     ##########################
-    yt_category: str = "32"
+    yt_category: int = 32
     your_youtube_username: Optional[str] = None
     your_youtube_password: Optional[str] = None
     client_secrets_file: str = os.path.join(base_dir, 'client_secrets.json')
-    limit_hashtags: int = 100
+    limit_hashtags: int = 5
     imp_hashtags: list[str] = [
         "videoedit",
         "funney",

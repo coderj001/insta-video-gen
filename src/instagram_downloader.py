@@ -11,14 +11,18 @@ from .settings import settings
 
 L = instaloader.Instaloader(download_video_thumbnails=False)
 
+# Load existing session or create a new session
+# session_file = f"{settings.your_insta_username}.session"
+# if os.path.exists(session_file):
+#     L.load_session_from_file(settings.your_insta_username)
+# else:
+#     # Login before saving session
+#     L.context.login(settings.your_insta_username,
+#                     settings.your_insta_password)
+#     L.save_session_to_file(settings.your_insta_username)
+
 
 def download_instagram_videos_in_date_range(username: str) -> None:
-    if settings.your_insta_password and settings.your_insta_password:
-        L.context.log(
-            settings.your_insta_username,
-            settings.your_insta_password
-        )
-        L.load_session_from_file(settings.your_insta_username)
     profile = instaloader.Profile.from_username(L.context, username)
     posts = profile.get_posts()
     results = takewhile(lambda p: p.date > (settings.start_date), dropwhile(
@@ -35,7 +39,8 @@ def download_instagram_videos_in_date_range(username: str) -> None:
                     "Likes",
                     "Comments",
                     "Hashtags",
-                    "Caption Hashtags"
+                    "Caption Hashtags",
+                    "Caption",   # Add this line
                 ]
 
             )
@@ -56,6 +61,7 @@ def download_instagram_videos_in_date_range(username: str) -> None:
                     post.comments,
                     hashtags,
                     post.caption_hashtags,
+                    post.caption if post.caption else "N/A"  # Add this line
                 ])
                 original_file_path = os.path.join(
                     settings.temp_dir,
@@ -65,9 +71,6 @@ def download_instagram_videos_in_date_range(username: str) -> None:
                 new_file_path = os.path.join(settings.temp_dir, new_file_name)
                 original_file_path = original_file_path.replace(
                     ' ', '_').replace(':', '-')
-                # print(original_file_path)
-                # print(new_file_name)
-                # print(os.path.exists(original_file_path))
                 if os.path.exists(original_file_path):
                     shutil.move(original_file_path, new_file_path)
 

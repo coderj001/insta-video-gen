@@ -1,44 +1,55 @@
 import click
 from src.instagram_downloader import download_instagram_videos_for_usernames
 from src.video_compiler import VideoCompilationMaker
-from src.yt_uploader import upload_to_youtube as upload_to_yt
+from src.yt_uploader import publish_video_to_youtube
 
 
 @click.group()
-def main():
+def cli():
     """
     Main command group. This is the entry point of this CLI app
     """
     pass
 
 
-@main.command()
-def fetch():
+@cli.command(name='download-videos')
+def download_instagram_videos():
     """
-    To Fetch Insta Videos
+    Download Instagram videos within a specified date range
     """
-    print("Fetching...")
+    print("Downloading Instagram videos...")
     download_instagram_videos_for_usernames()
 
 
-@main.command()
-def compile():
+@cli.command(name='create-compilation')
+def compile_videos():
     """
-    compilation of insta videos
+    Compile downloaded Instagram videos into one video
     """
-    print("Compilating...")
-    vc = VideoCompilationMaker()
-    vc.create_compilation()
+    print("Creating video compilation...")
+    video_compiler = VideoCompilationMaker()
+    video_compiler.create_compilation()
 
 
-@main.command()
-def upload():
+@cli.command(name='publish-to-youtube')
+def upload_video():
     """
-    upload to youtube
+    Upload the compiled video to YouTube
     """
-    print("Uploading...")
-    upload_to_yt()
+    print("Uploading to YouTube...")
+    publish_video_to_youtube()
+
+
+@cli.command(name='show-videos')
+def list_videos():
+    """
+    List all the downloaded Instagram videos
+    """
+    video_compiler = VideoCompilationMaker()
+    video_files = video_compiler.get_videos_files()
+    for video in video_files:
+        print(video)
 
 
 if __name__ == '__main__':
-    main()
+    cli()
