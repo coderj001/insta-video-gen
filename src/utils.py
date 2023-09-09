@@ -1,6 +1,7 @@
 """Utils"""
 import glob
 from datetime import datetime
+import pickle
 import csv
 import os
 import platform
@@ -35,11 +36,13 @@ def get_all_tags() -> list[str]:
 
     return settings.imp_hashtags + top_tags
 
-def get_yt_tags()->list[str]:
-    tags = get_yt_tags()
-    top_tags = [tag for tag, _ in Counter(tags).most_common(settings.limit_hashtags)]
+
+def get_yt_tags() -> list[str]:
+    tags = get_all_tags()
+    top_tags = [tag for tag, _ in Counter(
+        tags).most_common(settings.limit_hashtags)]
     combined_tags = settings.imp_hashtags + top_tags
-    char_limit = 400 - (len(combined_tags) - 1)  
+    char_limit = 400 - (len(combined_tags) - 1)
     final_tags = []
     current_length = 0
     for tag in combined_tags:
@@ -48,7 +51,6 @@ def get_yt_tags()->list[str]:
             current_length += len(tag)
 
     return final_tags
-    
 
 
 def get_all_hashtags_in_str() -> str:
@@ -148,24 +150,32 @@ def append_upload_entry(video_name, video_id):
         ])
 
 
-def get_upload_count() -> int:
+def get_upload_count(updated_counter: int = 0) -> int:
     """
     Get the total count of videos uploaded.
-
-    Args:
-    - csv_file (str): Path to the CSV file.
 
     Returns:
     - int: Total count of videos uploaded.
     """
-    csv_file = settings.videos_data
-    if not os.path.exists(csv_file):
-        return 0
+    # Get the pickle file path from user input or some other method
+    pickle_file = settings.counter
 
-    with open(csv_file, 'r') as file:
-        reader = csv.reader(file)
-        # Subtract 1 for the header row
-        return sum(1 for row in reader) - 1
+    # Initialize the counter if the file doesn't exist
+    if not os.path.exists(pickle_file):
+        counter = updated_counter
+    else:
+        # Load the counter from the pickle file
+        with open(pickle_file, 'rb') as file:
+            counter = pickle.load(file)
+
+    # Increment the counter by one
+    counter += 1
+
+    # Save the updated counter to the pickle file
+    with open(pickle_file, 'wb') as file:
+        pickle.dump(counter, file)
+
+    return counter
 
 
 def get_latest_video() -> str:

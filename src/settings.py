@@ -50,7 +50,7 @@ class Settings(BaseSettings):
         if not username:
             raise ValueError("Instagram usernames must not be empty.")
         return username
-    duration_str: str = "1days"
+    duration_str: str = "2days"
     # Extract the numerical part from the string
     duration: int = int(duration_str[:-4])
 
@@ -95,12 +95,12 @@ class Settings(BaseSettings):
         base_dir,
         'media_assets/like_share_and_subscribe.mp4'
     )
-    videos_data: str = os.path.join(base_dir, 'videos.csv')
+    counter: str = os.path.join(base_dir, 'counter')
 
     ##########################
     # Youtube Upload Related #
     ##########################
-    yt_category: int = 32
+    yt_category: str = "32"
     your_youtube_username: Optional[str] = None
     your_youtube_password: Optional[str] = None
     client_secrets_file: str = os.path.join(base_dir, 'client_secrets.json')

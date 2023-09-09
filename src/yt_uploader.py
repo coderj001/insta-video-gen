@@ -64,7 +64,7 @@ def initiate_video_upload(youtube, video_path, title, description, tags):
             'title': title,
             'description': description,
             'tags': tags,
-            'categoryId': settings.yt_category
+            'categoryId': "22"
         },
         'status': {
             'privacyStatus': 'public'
@@ -98,7 +98,7 @@ def publish_video_to_youtube():
     """
     youtube = authenticate_with_youtube()
     video_path = get_latest_video()
-    video_count = get_upload_count() + 1
+    video_count = get_upload_count()
     if settings.yt_video_sub_title:
         title = f"{settings.yt_video_title} | {settings.yt_video_sub_title} | Challenge No. {video_count}"  # noqa: E501
     else:
@@ -113,4 +113,9 @@ def publish_video_to_youtube():
     )
     tags = get_yt_tags()
 
-    initiate_video_upload(youtube, video_path, title, description, tags)
+    try:
+        initiate_video_upload(youtube, video_path, title, description, tags)
+    except Exception as e:
+        os.remove(settings.counter)
+        get_upload_count(video_count - 1)
+        raise e
